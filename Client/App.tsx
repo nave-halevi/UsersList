@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, Modal, TextInput, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
+import  Modal  from './Modal';
+
 
 const App = () => {
   // State hooks
@@ -130,7 +132,6 @@ const App = () => {
     <View style={styles.container}>
       <Button title="Add User" onPress={toggleModal} />
       <View style={styles.tableHeader}>
-        {/* Table headers with sorting functionality */}
         <TouchableOpacity onPress={() => handleSort('firstName')}>
           <View style={styles.headerColumn}>
             <Text style={styles.headerText}>First</Text>
@@ -168,7 +169,6 @@ const App = () => {
             <Text style={styles.userText}>{item.email}</Text>
             <Text style={styles.userText}>{item.role}</Text>
             <View style={styles.actionButtons}>
-              {/* Edit and delete buttons */}
               <TouchableOpacity style={[styles.actionButton, styles.editButton]} onPress={() => handleEdit(item)}>
                 <Text style={styles.buttonText}>Edit</Text>
               </TouchableOpacity>
@@ -178,44 +178,14 @@ const App = () => {
             </View>
           </View>
         )}
-      />
-      <Modal visible={isModalVisible} animationType="slide">
-        <View style={styles.modalContent}>
-          {/* Form for adding or editing a user */}
-          <TextInput
-            placeholder="First Name"
-            value={newUser.firstName}
-            onChangeText={(text) => setNewUser({ ...newUser, firstName: text })}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Last Name"
-            value={newUser.lastName}
-            onChangeText={(text) => setNewUser({ ...newUser, lastName: text })}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Phone Number"
-            value={newUser.phoneNumber}
-            onChangeText={(text) => setNewUser({ ...newUser, phoneNumber: text })}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Email"
-            value={newUser.email}
-            onChangeText={(text) => setNewUser({ ...newUser, email: text })}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Role"
-            value={newUser.role}
-            onChangeText={(text) => setNewUser({ ...newUser, role: text })}
-            style={styles.input}
-          />
-          <Button title="Save" onPress={handleSave} />
-          <Button title="Cancel" onPress={toggleModal} />
-        </View>
-      </Modal>
+        />
+        <Modal 
+          visible={isModalVisible} 
+          onClose={toggleModal} 
+          newUser={newUser} 
+          setNewUser={setNewUser} 
+          handleSave={handleSave} 
+        />
     </View>
   );
 };
@@ -224,7 +194,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
+    paddingTop: 25,
     backgroundColor: '#fff',
   },
   tableHeader: {
@@ -232,6 +202,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start', // או 'space-around' או 'flex-start' בהתאם לצורך
     borderBottomWidth: 1,
     borderBottomColor: '#000',
+    backgroundColor: '#4CAF50',
     paddingBottom: 10,
     marginBottom: 10,
   },
@@ -241,8 +212,8 @@ const styles = StyleSheet.create({
   headerText: {
     fontWeight: 'bold',
     fontSize: 14,
-    textAlign: 'center', // יישור טקסט למרכז
-    marginHorizontal: 12, // הוספת מרווח אופקי בין הכותרות
+    textAlign: 'center',
+    marginHorizontal: 12,
   
   },
   userItem: {
