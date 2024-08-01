@@ -14,7 +14,7 @@ const App = () => {
 
   // Fetch users from the server when the component mounts
   useEffect(() => {
-    fetch('http://10.0.2.2:3000/users')
+    fetch('https://dadd-213-8-39-222.ngrok-free.app/users')
       .then((response) => response.json())
       .then((data) => setUsers(data)) // Update state with fetched users
       .catch((error) => console.error('Error fetching users:', error)); // Log error if fetch fails
@@ -47,7 +47,7 @@ const App = () => {
 
     // Determine the request method and URL based on editing status
     const method = isEditing ? 'PUT' : 'POST';
-    const url = isEditing ? `http://10.0.2.2:3000/users/${currentUserId}` : 'http://10.0.2.2:3000/users';
+    const url = isEditing ? `https://dadd-213-8-39-222.ngrok-free.app/users/${currentUserId}` : 'https://dadd-213-8-39-222.ngrok-free.app/users';
 
     // Send the request to the server
     fetch(url, {
@@ -80,7 +80,7 @@ const App = () => {
 
   // Handle delete action for a user
   const handleDelete = (id) => {
-    fetch(`http://10.0.2.2:3000/users/${id}`, {
+    fetch(`https://dadd-213-8-39-222.ngrok-free.app/users/${id}`, {
       method: 'DELETE',
     })
       .then(() => {
