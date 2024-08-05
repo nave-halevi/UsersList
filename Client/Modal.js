@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Modal as RNModal } from 'react-native';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const Modal = ({ visible, onClose, newUser, setNewUser, handleSave}) => {
     const handleCancel = () => {
@@ -49,8 +50,16 @@ const Modal = ({ visible, onClose, newUser, setNewUser, handleSave}) => {
           placeholder="Role"
           value={newUser.role}
           onChangeText={(text) => setNewUser({ ...newUser, role: text })}
-        />
-
+        />   
+        
+{/*       
+        <SelectDropdown
+          data={['Manager', 'Waiter']}
+          defaultValue={newUser.role}
+          onSelect={(selectedItem) => setNewUser({ ...newUser, role: selectedItem })}
+          buttonTextAfterSelection={(selectedItem) => selectedItem}
+          rowTextForSelection={(item) => item}
+        /> */}
         <View style={styles.buttonContainer}>
           <Button title="Save" onPress={handleSave} />
           <Button title="Cancel" onPress={handleCancel} />
@@ -86,6 +95,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: '100%',
   },
+  dropdownButton: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
+  }
+
+
 });
 
 export default Modal;

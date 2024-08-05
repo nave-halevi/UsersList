@@ -3,19 +3,36 @@ import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Alert } fro
 import  Modal  from './Modal';
 
 
+
+type User = {
+  id: string;
+  firstName:string;
+  lastName: string;
+  phoneNumber:string;
+  email:string;
+  role:string;
+}
+type SortKey = 'firstName' | 'lastName' | 'phoneNumber' | 'email' | 'role'; 
+
+type SortConfig = {
+  key: SortKey;
+  direction: 'asc' | 'desc';
+};
+
 const App = () => {
   // State hooks
-  const [users, setUsers] = useState([]); // List of users fetched from the server
+  const [users, setUsers] = useState<User[]>([]); // List of users fetched from the server
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
   const [newUser, setNewUser] = useState({ firstName: '', lastName: '', phoneNumber: '', email: '', role: '' }); // Data for new or edited user
   const [isEditing, setIsEditing] = useState(false); // Whether we are editing an existing user
-  const [currentUserId, setCurrentUserId] = useState(null); // ID of the user being edited
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null); // טיפוס עדכני עבור ID
   const [sortConfig, setSortConfig] = useState({ key: 'firstName', direction: 'asc' }); // Sorting configuration
 
   // Fetch users from the server when the component mounts
   useEffect(() => {
-    fetch('https://dadd-213-8-39-222.ngrok-free.app/users')
-      .then((response) => response.json())
+    fetch('https://e9d5-213-8-39-222.ngrok-free.app/users')
+      
+    .then((response) => response.json())
       .then((data) => setUsers(data)) // Update state with fetched users
       .catch((error) => console.error('Error fetching users:', error)); // Log error if fetch fails
   }, []);
@@ -47,7 +64,7 @@ const App = () => {
 
     // Determine the request method and URL based on editing status
     const method = isEditing ? 'PUT' : 'POST';
-    const url = isEditing ? `https://dadd-213-8-39-222.ngrok-free.app/users/${currentUserId}` : 'https://dadd-213-8-39-222.ngrok-free.app/users';
+    const url = isEditing ? `https://e9d5-213-8-39-222.ngrok-free.app/users/${currentUserId}` : 'https://e9d5-213-8-39-222.ngrok-free.app/users';
 
     // Send the request to the server
     fetch(url, {
@@ -79,8 +96,8 @@ const App = () => {
   };
 
   // Handle delete action for a user
-  const handleDelete = (id) => {
-    fetch(`https://dadd-213-8-39-222.ngrok-free.app/users/${id}`, {
+  const handleDelete = (id: string) => {
+    fetch(`https://e9d5-213-8-39-222.ngrok-free.app/users/${id}`, {
       method: 'DELETE',
     })
       .then(() => {
@@ -90,7 +107,7 @@ const App = () => {
   };
 
   // Handle edit action for a user
-  const handleEdit = (user) => {
+  const handleEdit = (user:User) => {
     setNewUser(user);
     setCurrentUserId(user.id);
     setIsEditing(true);
@@ -98,7 +115,7 @@ const App = () => {
   };
 
   // Handle sorting of user list
-  const handleSort = (key) => {
+  const handleSort = (key: SortKey) => {
     let direction = 'asc';
 
     // Toggle sort direction if the same key is clicked
@@ -160,7 +177,7 @@ const App = () => {
       </View>
       <FlatList
         data={users}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.userItem}>
             <Text style={styles.userText}>{item.firstName}</Text>
@@ -214,7 +231,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     marginHorizontal: 12,
-  
   },
   userItem: {
     flexDirection: 'row',
